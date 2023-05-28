@@ -19,16 +19,20 @@ export const NewMemoryForm = () => {
 
     let coverUrl = ''
 
+    const token = Cookie.get('token')
+
     if (fileToUpload) {
       const uploadFormData = new FormData()
       uploadFormData.set('file', fileToUpload)
 
-      const uploadResponse = await api.post('/upload', uploadFormData)
+      const uploadResponse = await api.post('/upload', uploadFormData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       coverUrl = uploadResponse.data.url
     }
-
-    const token = Cookie.get('token')
 
     await api.post(
       '/memories',
