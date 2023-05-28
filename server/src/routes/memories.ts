@@ -4,7 +4,6 @@ import { z } from 'zod'
 
 export async function memoriesRoutes(app: FastifyInstance) {
   app.addHook('preHandler', async (request) => {
-    // before all requests, verify jwt
     await request.jwtVerify()
   })
 
@@ -25,6 +24,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
         memory.content.length > 115
           ? memory.content.slice(0, 115).concat('...')
           : memory.content,
+      createdAt: memory.createdAt,
     }))
   })
 
